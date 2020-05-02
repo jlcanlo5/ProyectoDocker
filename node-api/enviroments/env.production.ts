@@ -1,7 +1,7 @@
 export default {
     API: {
         NAME: 'microservicio Punto de venta | NodeJS',
-        PORT: 5000,
+        PORT: 3000,
         ENVIRONMENT: 'Development'
     },
     NOTIFY: {

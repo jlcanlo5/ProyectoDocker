@@ -34,77 +34,93 @@
     
     const {userName, password} = req.body;
     const mockUser = {
-    fullName: 'Juan Luis Martínez Rocha',
-    userName: 'jmartinezr',
-    password: 'hola123',
-    email: 'jl.canlo@yahoo.com.mx'
+        fullName: 'Juan Luis Martínez Rocha',
+        userName: 'principal',
+        password: 'hola123',
+        email: 'jl.canlo@yahoo.com.mx'
     }
     const mockRoles = ['Capture_Rol', 'Admon_Catalogs_Rol', 'Print_Rol']
     // Validar usuario y contraseña
-    if (userName == mockUser.userName && password == mockUser.password) {
+        if (userName == mockUser.userName && password == mockUser.password) {
     // Build Payload
-    const payload = {
-    fullName: mockUser.fullName,
-    userName: mockUser.userName,
-    email: mockUser.email,
-    roles: mockRoles
-    }
-    // Generar el Token para ese usuario
-    jwt.sign(payload, ENV.TOKEN.SECRETKEY, { expiresIn: ENV.TOKEN.EXPIRES }, (err, token) => {
-    // Existe Error
-    if (err) {
-    return res.status(500).json(
-    apiUtils.BodyResponse(
-    ApiStatusEnum.Internal_Server_Error, 
-    'Internal Server Error', 
-    'Error al intentar crear el Token', 
-    null, 
-    err
-    )
-    )
-    }
-    // OK
-    res.status(200).json(
-    apiUtils.BodyResponse(
-    ApiStatusEnum.Success, 
-    'OK', 
-    'Token generado de forma correcta', 
-    {
-    userName: mockUser.userName,
-    token 
-    }, 
-    null
-    )
-    )
-    });
-    }
+            const payload = {
+                fullName: mockUser.fullName,
+                userName: mockUser.userName,
+                email: mockUser.email,
+                roles: mockRoles
+            }
+            // Generar el Token para ese usuario
+            jwt.sign(payload, ENV.TOKEN.SECRET_KEY, { expiresIn: ENV.TOKEN.EXPIRES }, (err, token) => {
+            // Existe Error
+            if (err) {
+                return res.status(500).json(
+                apiUtils.BodyResponse(
+                    ApiStatusEnum.Internal_Server_Error, 
+                    'Internal Server Error', 
+                    'Error al intentar crear el Token', 
+                    null, 
+                    err
+                )
+                )
+            }
+            // OK
+                res.status(200).json(
+                    apiUtils.BodyResponse(
+                        ApiStatusEnum.Success, 
+                        'OK', 
+                        'Token generado de forma correcta', 
+                        {
+                            userName: mockUser.userName,
+                            token 
+                        }, 
+                        null
+                    )
+                )
+        });
+    }       
     else {
-    res.status(403).json(
-    apiUtils.BodyResponse(
-    ApiStatusEnum.Forbidden, 
-    'La solicitud fue legal, pero el servidor rehúsa responderla dado que el cliente no tiene los privilegios para realizarla', 
-    'Credenciales Invalidas. El usuario y/o contraseña proporcionados no son válidos. Favor de verificar.', 
-    {
-    msg: 'Invalid Credentials'
-    }, 
-    null
-    )
-    )
-    }
-    });
+                res.status(403).json(
+                    apiUtils.BodyResponse(
+                        ApiStatusEnum.Forbidden, 
+                        'La solicitud fue legal, pero el servidor rehúsa responderla dado que el cliente no tiene los privilegios para realizarla', 
+                        'Credenciales Invalidas. El usuario y/o contraseña proporcionados no son válidos. Favor de verificar.', 
+                        {
+                            msg: 'Invalid Credentials'
+                        }, 
+                        null
+                    )
+                )
+            }
+            });
     
     app.get('/products', token.verify, async (req: Request, res: Response) => {
     
-    const productos = await mongodb.db.collection('cars').find({}).toArray();
-    res.status(200).json(
-    apiUtils.BodyResponse(
-    ApiStatusEnum.Success, 'OK', 'La solicitud ha tenido éxito', 
-    { 
-    productos,
-    authUser: req.body.authUser
-    }
-    )
-    );
+        const productos = await mongodb.db.collection('cars').find({}).toArray();
+        res.status(200).json(
+            apiUtils.BodyResponse(
+            ApiStatusEnum.Success, 'OK', 'La solicitud ha tenido éxito', 
+            { 
+                productos,
+                authUser: req.body.authUser
+            }
+            )
+        );
+    
+    });
+
+    app.get('/products', token.verify, async (req: Request, res: Response) => {
+    
+        const {busqueda} = req.params;
+        const productos = await mongodb.db.collection('cars').IndexOf({busqueda}).toArray();
+        res.status(200).json(
+            apiUtils.BodyResponse(
+            ApiStatusEnum.Success, 'OK', 'La solicitud ha tenido éxito', 
+            { 
+                productos,
+                authUser: req.body.authUser
+            }
+            )
+        );
     
     });
 
@@ -115,26 +131,26 @@
 
         const productos = await mongodb.db.collection('cars').find({_id}).toArray();
         res.status(200).json(
-        apiUtils.BodyResponse(
-        ApiStatusEnum.Success, 'OK', 'La solicitud ha tenido éxito', 
-        { 
-        productos,
-        authUser: req.body.authUser
-        }
-        )
+            apiUtils.BodyResponse(
+                ApiStatusEnum.Success, 'OK', 'La solicitud ha tenido éxito', 
+                { 
+                    productos,
+                    authUser: req.body.authUser
+                }
+            )
         );
         
-        });
+    });
     
     // Start Express Server
     app.listen(ENV.API.PORT, async() => {
         //Conectando con MongoDB
-    try {
-        await mongodb.connect();
-    }
-    catch {
+        try {
+            await mongodb.connect();
+        }
+        catch {
         
-    }
+        }
         mongodb.connect();
-    debug.express(`El servidor ${color.express('Express')} se inicio ${color.warning('correctamente')} en el puerto ${color.info(ENV.API.PORT)}`);
+        debug.express(`El servidor ${color.express('Express')} se inicio ${color.warning('correctamente')} en el puerto ${color.info(ENV.API.PORT)}`);
     });

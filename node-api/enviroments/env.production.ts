@@ -8,14 +8,14 @@ export default {
         DELAY: 1000 * 10        // 10 Segundos
     },
     TOKEN: {
-        SECRETKEY: 'secretkey',
-        EXPIRES: 5000    // 4 Horas
+        SECRET_KEY: 'secretkey-value',
+        EXPIRES: '120s'    // 2 minutos
     },
     MONGODB: {
         HOST: '192.168.153.134',
         PORT: 39018,
-        USER_NAME: 'dba-root',
-        USER_PASSWORD: 'mongodbadmin',
+        USER_NAME: 'principal',
+        USER_PASSWORD: 'hola123',
         DEFAULT_DATABASE: 'cars'
     }
 };

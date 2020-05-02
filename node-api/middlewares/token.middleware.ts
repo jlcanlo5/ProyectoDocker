@@ -14,13 +14,13 @@ export default (CONFIG:any)=> {
                 const bearer = bearerHeader.split(' ');
                 const bearerToken=bearer[1];
 
-                jwt.verify(bearerToken, CONFIG.TOKEN.SECRETKEY, (err: any, tokenDecoded:any) =>{
+                jwt.verify(bearerToken, CONFIG.TOKEN.SECRET_KEY, (err: any, tokenDecoded:any) =>{
                     if (err)
                     {
                         return res.status(ApiStatusEnum.Forbidden).json(
                             apiUtils.BodyResponse(ApiStatusEnum.Forbidden, 
                             //Descripcion
-                            'Acceso prohibido al verificar el token (Middleware TOKENs',
+                            'Acceso prohibido al verificar el token (Middleware TOKENs)',
                             //Mensaje
                             'El token proporcionado no es un token válido. Favor de verificar',
                             //Result
@@ -28,7 +28,7 @@ export default (CONFIG:any)=> {
                             //Error
                             err,
                             //Notificacion
- 
+                            
                                 )
                         )
                     }

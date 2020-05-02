@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ProductModel } from '../models/models';
 import { Observable } from 'rxjs';
 
-const URL_PRODUCTS = 'api.midominio.com';
+const URL_PRODUCTS = 'mongodb://principal:hola123@192.168.153.134:39018/cars';
 
 @Injectable({
   providedIn: 'root'

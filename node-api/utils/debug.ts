@@ -13,7 +13,7 @@ export const COLOR=()=>{
         mongoDB: chalk.bgHex('412F20').hex('#589636').bold,
         success: chalk.greenBright,
         danger: chalk.redBright.bold,
-        warning: chalk.yellowBright,
+        warning: chalk.yellowBright, 
         info: chalk.white.bold
     }
 };

@@ -6,7 +6,7 @@ import ENV from '../enviroments/env.production'
 
 export default (CONFIG:any)=> {
     const apiUtils=APIUtils(CONFIG);
-    return {
+    return { 
         verify: (req: Request, res: Response, next: NextFunction) => {
             const bearerHeader= req.headers['authorization'];
             if (typeof bearerHeader !== 'undefined')

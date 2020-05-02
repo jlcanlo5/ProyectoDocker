@@ -31,7 +31,7 @@ export default class MongoDB{
         .then((connection)=>{
             debug.mongoDB(`El servidor ${color.mongoDB('MongoDB')} se inicio ${color.warning('correctamente')}`)
             this.cnn =connection;
-            this.db=this.cnn.db();
+            this.db=this.cnn.db(); 
         })
             .catch((err) =>{
                 console.log('Ocurrio un error al intentar conectarse a MongoDB', err);

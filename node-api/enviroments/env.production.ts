@@ -9,7 +9,7 @@ export default {
     },
     TOKEN: {
         SECRET_KEY: 'secretkey-value',
-        EXPIRES: '120s'    // 2 minutos
+        EXPIRES: '120s'    // 2 minutos 
     },
     MONGODB: {
         HOST: '192.168.153.134',

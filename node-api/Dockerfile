@@ -11,6 +11,6 @@ RUN tsc
 
 #VOLUME /usr/share/node/node_modules:/usr/src/node/node_modules
 
-EXPOSE 3000 
+EXPOSE 5000 
 #CMD ["sleep", "3600"]
 CMD ["npm", "run", "start"]

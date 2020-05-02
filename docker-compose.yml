@@ -20,7 +20,7 @@ services:
             dockerfile: Dockerfile
         restart: always
         environment:
-            - VIRTUAL_HOST=app.midominio.com
+            - VIRTUAL_HOST=app.proyectodocker.com
 
     node-api:
         container_name: 'Node-API'
@@ -31,4 +31,4 @@ services:
         ports:
             - '3000:3000'
         environment:
-            - VIRTUAL_HOST=api.midominio.com
+            - VIRTUAL_HOST=api.proyectodocker.com
